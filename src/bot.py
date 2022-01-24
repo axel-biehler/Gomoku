@@ -1,11 +1,17 @@
-from random import randrange
+from enum import Enum
 from sys import stderr
+
+class Owner(Enum):
+    SELF = 1
+    OPPONENT = 2
+    NONE = 3
 
 class Bot:
     def __init__(self, ai_class):
         self.is_running = True
         self.size = 0
-        self.ai = ai_class()
+        self.ai = ai_class(self)
+        self.board = []
 
     def run(self):
         while self.is_running:
@@ -36,8 +42,8 @@ class Bot:
             print('UNKNOWN')
 
     def start(self, args):
-        self.size = int(args[0])
-        self.ai.set_board_size(self.size)
+        self.board_size = int(args[0])
+        self.board = [[Owner.NONE for _ in range(self.board_size)] for _ in range(self.board_size)]
         print('OK')
 
     def end(self, args):
@@ -53,5 +59,10 @@ class Bot:
         self.ai.begin()
 
     def turn(self, args):
-        pos_split = list(map(lambda x: int(x), args[0].split(',')))
-        self.ai.turn(pos_split[0], pos_split[1])
+        x, y = list(map(lambda x: int(x), args[0].split(',')))
+        self.board[x][y] = Owner.OPPONENT
+        self.ai.turn(x, y)
+
+    def place(self, x, y):
+        self.board[x][y] = Owner.SELF
+        print('{},{}'.format(int(x), int(y)))

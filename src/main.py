@@ -1,8 +1,8 @@
-import bot
-import simple_ai
+from bot import Bot
+from simple_ai import SimpleAI
 
 def main():
-    b = bot.Bot(simple_ai.SimpleAI)
+    b = Bot(SimpleAI)
     b.run()
 
 if __name__ == '__main__':

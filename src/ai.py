@@ -9,11 +9,8 @@ class AIData:
         return 'name="{}", version="{}", author="{}", country="{}"'.format(self.name, self.version, self.author, self.country)
 
 class AI:
-    def __init__(self):
-        self.board_size = 0
-
-    def set_board_size(self, board_size):
-        self.board_size = board_size
+    def __init__(self, bot):
+        self.bot = bot
 
     def get_data(self):
         return AIData("Unknown", "1.0", "Unknown", "FRA")
@@ -25,7 +22,10 @@ class AI:
         pass
 
     def place(self, x, y):
-        print('{},{}'.format(int(x), int(y)))
+        self.bot.place(x, y)
+
+    def board(self, x, y):
+        return self.bot.board[x][y]
 
     def __str__(self):
         return str(self.get_data())

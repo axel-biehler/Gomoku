@@ -1,8 +1,7 @@
 all:
 	pip install pyinstaller
-	pyinstaller --onefile src\main.py
+	pyinstaller --onefile src\main.py src\bot.py src\ai.py src\simple_ai.py
 
-	echo $(OS)
 	ifeq ($(OS),Windows_NT)
 		copy dist\main.exe pbrain-gomoku-ai.exe
 	else
