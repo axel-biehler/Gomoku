@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from ai import AI, AIData
 from bot import Owner
 
