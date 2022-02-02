@@ -46,7 +46,7 @@ class Bot:
         self.board = [[Owner.NONE for _ in range(self.board_size)] for _ in range(self.board_size)]
 
     def start_cmd(self, args):
-        if (int(args[0]) < 0):
+        if (int(args[0]) <= 0):
             self.board_size = 20
             print('ERROR bad board size')
             return
