@@ -47,6 +47,9 @@ class Bot:
 
     def start_cmd(self, args):
         self.board_size = int(args[0])
+        if self.board_size <= 0:
+            print('ERROR bad board size')
+            return
         self.init_board()
         print('OK')
 
