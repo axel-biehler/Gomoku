@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from tkinter import HORIZONTAL
 from ai import AI, AIData
 from bot import Owner
 
