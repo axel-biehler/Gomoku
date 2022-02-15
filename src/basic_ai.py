@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-from tkinter import HORIZONTAL
-from turtle import screensize
 from ai import AI, AIData
 from bot import Owner
 from enum import IntEnum
@@ -33,22 +31,38 @@ class BasicAi(AI):
         middle = int(self.bot.board_size / 2)
         self.place(middle, middle)
 
+    # def turn(self, x, y):
+    #     move = self.find_diag_up();
+    #     if (move != "Not efficient"):
+    #         self.place(move[0], move[1])
+    #         return
+    #     move = self.find_diag_down();
+    #     if (move != "Not efficient"):
+    #         self.place(move[0], move[1])
+    #         return
+    #     move = self.find_horizontal();
+    #     if (move != "Not efficient"):
+    #         self.place(move[0], move[1])
+    #         return
+    #     move = self.find_vertical();
+    #     if (move != "Not efficient"):
+    #         self.place(move[0], move[1])
+    #         return
+    #     move = self.dumb_move()
+    #     self.place(move[0], move[1])
+
     def turn(self, x, y):
-        move = self.find_diag_up();
-        if (move != "Not efficient"):
-            self.place(move[0], move[1])
-            return
-        move = self.find_diag_down();
-        if (move != "Not efficient"):
-            self.place(move[0], move[1])
-            return
-        move = self.find_horizontal();
-        if (move != "Not efficient"):
-            self.place(move[0], move[1])
-            return
-        move = self.find_vertical();
-        if (move != "Not efficient"):
-            self.place(move[0], move[1])
+        moves = list()
+        moves.append(self.find_diag_up())
+        moves.append(self.find_diag_down())
+        moves.append(self.find_horizontal())
+        moves.append(self.find_vertical())
+        best = [0, 0, 0]
+        for move in moves:
+            if (best[2] < move[2]):
+                best = move
+        if (best[2] > 0):
+            self.place(best[0], best[1])
             return
         move = self.dumb_move()
         self.place(move[0], move[1])
@@ -79,7 +93,7 @@ class BasicAi(AI):
             piece[i] = self.board(best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y])
         for i in range(5):
             if (piece[i] == Owner.NONE):
-                return (best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y])
+                return (best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y], best_piece[pieces.SCORE])
 
     def find_horizontal(self):
         best_piece = [0, 0, 0]
@@ -90,8 +104,6 @@ class BasicAi(AI):
                     best_piece[pieces.SCORE] = score
                     best_piece[pieces.POS_X] = xi
                     best_piece[pieces.POS_Y] = yi
-        if (best_piece[pieces.SCORE] == 0):
-            return "Not efficient"
         return self.horizontal_placement(best_piece)
     
     ## Find opportunities on vertical axis
@@ -113,7 +125,7 @@ class BasicAi(AI):
             piece[i] = self.board(best_piece[pieces.POS_X], best_piece[pieces.POS_Y] + i)
         for i in range(5):
             if (piece[i] == Owner.NONE):
-                return (best_piece[pieces.POS_X], best_piece[pieces.POS_Y] + i)
+                return (best_piece[pieces.POS_X], best_piece[pieces.POS_Y] + i, best_piece[pieces.SCORE])
 
     def find_vertical(self):
         best_piece = [0, 0, 0]
@@ -124,8 +136,6 @@ class BasicAi(AI):
                     best_piece[pieces.SCORE] = score
                     best_piece[pieces.POS_X] = xi
                     best_piece[pieces.POS_Y] = yi
-        if (best_piece[pieces.SCORE] == 0):
-            return "Not efficient"
         return self.vertical_placement(best_piece)
 
     ## Find opportunities on descending diagonal axis
@@ -147,7 +157,7 @@ class BasicAi(AI):
             piece[i] = self.board(best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y] + i)
         for i in range(5):
             if (piece[i] == Owner.NONE):
-                return (best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y] + i)
+                return (best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y] + i, best_piece[pieces.SCORE])
 
     def find_diag_down(self):
         best_piece = [0, 0, 0]
@@ -158,8 +168,6 @@ class BasicAi(AI):
                     best_piece[pieces.SCORE] = score
                     best_piece[pieces.POS_X] = xi
                     best_piece[pieces.POS_Y] = yi
-        if (best_piece[pieces.SCORE] == 0):
-            return "Not efficient"
         return self.diag_down_placement(best_piece)
 
     ## Find opportunities on upward diagonal axis
@@ -181,17 +189,15 @@ class BasicAi(AI):
             piece[i] = self.board(best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y] - i)
         for i in range(5):
             if (piece[i] == Owner.NONE):
-                return (best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y] - i)
+                return (best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y] - i, best_piece[pieces.SCORE])
 
     def find_diag_up(self):
         best_piece = [0, 0, 0]
-        for yi in range(4, self.bot.board_size - 4):
+        for yi in range(4, self.bot.board_size):
             for xi in range(self.bot.board_size - 4):
                 score = self.get_piece_diag_up(xi, yi)
                 if (best_piece[pieces.SCORE] < score):
                     best_piece[pieces.SCORE] = score
                     best_piece[pieces.POS_X] = xi
                     best_piece[pieces.POS_Y] = yi
-        if (best_piece[pieces.SCORE] == 0):
-            return "Not efficient"
         return self.diag_up_placement(best_piece)
