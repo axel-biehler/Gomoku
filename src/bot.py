@@ -77,7 +77,7 @@ class Bot:
         self.init_board()
         while line != 'DONE':
             x, y, owner = list(map(lambda x: int(x), line.split(',')))
-            self.board[x][y] = owner
+            self.board[x][y] = Owner(owner)
             line = input()
         self.turn_cmd(['{},{}'.format(x, y)])
 
