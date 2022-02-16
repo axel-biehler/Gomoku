@@ -212,6 +212,8 @@ class SimpleAI(AI):
         for i in range(5):
             piece[i] = self.board(best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y])
         for i in range(5):
+            if (i < 4 and piece[i + 1] == Owner.NONE):
+                return (best_piece[pieces.POS_X] + 1 + i, best_piece[pieces.POS_Y], best_piece[pieces.SCORE])
             if (piece[i] == Owner.NONE):
                 return (best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y], best_piece[pieces.SCORE])
 
@@ -244,6 +246,8 @@ class SimpleAI(AI):
         for i in range(5):
             piece[i] = self.board(best_piece[pieces.POS_X], best_piece[pieces.POS_Y] + i)
         for i in range(5):
+            if (i < 4 and piece[i + 1] == Owner.NONE):
+                return (best_piece[pieces.POS_X], best_piece[pieces.POS_Y] + i + 1, best_piece[pieces.SCORE])
             if (piece[i] == Owner.NONE):
                 return (best_piece[pieces.POS_X], best_piece[pieces.POS_Y] + i, best_piece[pieces.SCORE])
 
@@ -276,6 +280,8 @@ class SimpleAI(AI):
         for i in range(5):
             piece[i] = self.board(best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y] + i)
         for i in range(5):
+            if (i < 4 and piece[i + 1] == Owner.NONE):
+                return (best_piece[pieces.POS_X] + i + 1, best_piece[pieces.POS_Y] + i + 1, best_piece[pieces.SCORE])
             if (piece[i] == Owner.NONE):
                 return (best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y] + i, best_piece[pieces.SCORE])
 
@@ -308,6 +314,8 @@ class SimpleAI(AI):
         for i in range(5):
             piece[i] = self.board(best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y] - i)
         for i in range(5):
+            if (i < 4 and piece[i + 1] == Owner.NONE):
+                return (best_piece[pieces.POS_X] + i + 1, best_piece[pieces.POS_Y] - i - 1, best_piece[pieces.SCORE])
             if (piece[i] == Owner.NONE):
                 return (best_piece[pieces.POS_X] + i, best_piece[pieces.POS_Y] - i, best_piece[pieces.SCORE])
 
