@@ -14,12 +14,6 @@ class pieces(IntEnum):
     POS_X = 1
     POS_Y = 2
 
-class directions(IntEnum):
-    HORIZONTAL = 0
-    VERTICAL = 1
-    DIAGONAL_DOWN = 2
-    DIAGONAL_UP = 3
-
 class SimpleAI(AI):
     def __init__(self, bot):
         super().__init__(bot)
@@ -31,21 +25,7 @@ class SimpleAI(AI):
         middle = int(self.bot.board_size / 2)
         self.place(middle, middle)
 
-
-
-    def dump_game(self):
-        for yi in range(self.bot.board_size):
-            for xi in range(self.bot.board_size):
-                if (self.board(xi, yi) == Owner.NONE):
-                    print(".", end="")
-                elif (self.board(xi, yi) == Owner.SELF):
-                    print("O", end="")
-                elif (self.board(xi, yi) == Owner.OPPONENT):
-                    print("X", end="")
-            print()
-
     def turn(self, x, y):
-        self.dump_game();
         off_moves = list()
         off_moves.append(self.find_diag_up())
         off_moves.append(self.find_diag_down())
@@ -64,7 +44,6 @@ class SimpleAI(AI):
         if (best_def[2] > 0):
             self.place(best_def[0], best_def[1])
             return
-
 
         best_off = [0, 0, 0]
         for move in off_moves:
