@@ -31,6 +31,18 @@ class BasicAi(AI):
         middle = int(self.bot.board_size / 2)
         self.place(middle, middle)
 
+    def dump_game(self):
+        for yi in range(self.bot.board_size):
+            for xi in range(self.bot.board_size):
+                if (self.board(xi, yi) == Owner.NONE):
+                    print(".", end="")
+                elif (self.board(xi, yi) == Owner.SELF):
+                    print("O", end="")
+                elif (self.board(xi, yi) == Owner.OPPONENT):
+                    print("X", end="")
+            print()
+
+
     def turn(self, x, y):
         off_moves = list()
         off_moves.append(self.find_diag_up())
@@ -58,9 +70,11 @@ class BasicAi(AI):
                 best_off = move
         if (best_off[2] > 0):
             self.place(best_off[0], best_off[1])
+            self.dump_game()                            ##DEBUG
             return
         move = self.dumb_move()
         self.place(move[0], move[1])
+        self.dump_game()                            ##DEBUG
 
     ## Picks a random place to start
     def dumb_move(self):
