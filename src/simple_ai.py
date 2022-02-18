@@ -37,6 +37,11 @@ class SimpleAI(AI):
         def_moves.append(self.defend_horizontal())
         def_moves.append(self.defend_vertical())
 
+        for move in off_moves:
+            if (move[2] == 4):
+                self.place(move[0], move[1])
+                return
+
         best_def = [0, 0, 0]
         for move in def_moves:
             if (best_def[2] < move[2] and int(2) < move[2]):
